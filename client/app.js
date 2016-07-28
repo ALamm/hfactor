@@ -11,21 +11,21 @@ myApp.config(function($routeProvider) {
         })
         .when('/users/:id', {
             templateUrl: 'partials/users.html',
-            controller: 'userBumperController',    
+            controller: 'userItemController',    
             access: {
                 restricted: false
             }
         })
         .when('/yours', {
-            templateUrl: 'partials/myBumper.html',
-            controller: 'myBumperController',
+            templateUrl: 'partials/myItem.html',
+            controller: 'myItemController',
             access: {
                 restricted: true
             }
         })
         .when('/recent', {
-            templateUrl: 'partials/recentBumper.html',
-            controller: 'recentBumperController',
+            templateUrl: 'partials/recentItem.html',
+            controller: 'recentItemController',
             access: {
                 restricted: false
             }
@@ -63,7 +63,7 @@ myApp.config(function($routeProvider) {
 });
 
 // ACTIVETAB
-// keep track of which menu bumper has been selected and make it active
+// keep track of which menu item has been selected and make it active
 myApp.run(['$rootScope', '$location', function($rootScope, $location) {
     var path = function() {
         return $location.path();

@@ -3,7 +3,7 @@ var router = express.Router();
 var passport = require('passport');
 
 var User = require('../models/user.js');
-var Bumper = require('../models/Bumper.js');
+var Item = require('../models/Item.js');
 
 var recentLimit = 100;
 var selectedLimit = 5;
@@ -42,7 +42,7 @@ router.post('/authorname', function (req, res) {
 })
 
 router.post('/userBoard', function (req, res) {
-    Bumper.find()
+    Item.find()
         .or([ {authorID: req.body.authorid}, {'repostedby': req.body.authorid} ])
         .sort({'date': -1})
         .exec( function (err, docs) {
@@ -52,14 +52,14 @@ router.post('/userBoard', function (req, res) {
             });
         }           
         return res.status(200).json({
-            status: 'Retrieved user Bumper!',
+            status: 'Retrieved user Item!',
             docs: docs                
         });
     })    
 })
 
 router.get('/myBoard', function (req, res) {
-    Bumper.find()
+    Item.find()
         .or([ {authorID: req.user._id}, {'repostedby': req.user._id} ])
         .sort({'date': -1})
         .exec( function (err, docs) {
@@ -69,14 +69,14 @@ router.get('/myBoard', function (req, res) {
             });
         }           
         return res.status(200).json({
-            status: 'Retrieved all my Bumper!',
+            status: 'Retrieved all my Item!',
             docs: docs                
         });
     })    
 })
 
 router.get('/recentBoard', function (req, res) {
-    Bumper.find({})
+    Item.find({})
         .sort({'date': -1})
         .limit(recentLimit)
         .exec( function (err, docs) {
@@ -86,14 +86,14 @@ router.get('/recentBoard', function (req, res) {
             });
         }           
         return res.status(200).json({
-            status: 'Retrieved all recent Bumper!',
+            status: 'Retrieved all recent Item!',
             docs: docs                
         });
     })    
 })
 
 router.get('/selectedBoard', function (req, res) {
-    Bumper.find({})
+    Item.find({})
         .sort({'date': -1})
         .limit(selectedLimit)
         .exec( function (err, docs) {
@@ -103,14 +103,14 @@ router.get('/selectedBoard', function (req, res) {
             });
         }           
         return res.status(200).json({
-            status: 'Retrieved all recent Bumper!',
+            status: 'Retrieved all recent Item!',
             docs: docs                
         });
     })    
 })
  
-router.post('/addBumper', function (req,res) {
-    Bumper.create( {authorID: req.user._id, authorName: req.body.username, title: req.body.title, imgUrl: req.body.imgUrl}, 
+router.post('/addItem', function (req,res) {
+    Item.create( {authorID: req.user._id, authorName: req.body.username, title: req.body.title, imgUrl: req.body.imgUrl}, 
         function(err, docs) {
         if (err) {
             return res.status(500).json({
@@ -118,28 +118,28 @@ router.post('/addBumper', function (req,res) {
             });
         } 
          return res.status(200).json({
-            status: 'Added Bumper Sticker!',
+            status: 'Added Item Sticker!',
             docs: docs,
         });
     });    
 })
 
-router.post('/removeBumper', function (req, res) {
-    Bumper.remove( {_id: req.body.bumperid }, function (err, docs) {
+router.post('/removeItem', function (req, res) {
+    Item.remove( {_id: req.body.item }, function (err, docs) {
         if (err) {
             return res.status(500).json({
                 err: err
             });
         } 
         return res.status(200).json({
-            status: 'Removed Bumper Sticker!',
+            status: 'Removed Item Sticker!',
             docs: docs                
         });    
     });    
 });
 
-router.post('/updateBumper', function (req, res) {
-    Bumper.update( {_id: req.body.bumperid },
+router.post('/updateItem', function (req, res) {
+    Item.update( {_id: req.body.item },
         { $pull: { 'repostedby': req.user._id}}, function (err, docs) {
         if (err) {
             return res.status(500).json({
@@ -147,18 +147,18 @@ router.post('/updateBumper', function (req, res) {
             });
         }  
         return res.status(200).json({
-            status: 'Removed Bumper Sticker!',
+            status: 'Removed Item Sticker!',
             docs: docs                
         });  
 
     });    
 });
 
-router.post('/likeBumper', function (req,res) {
+router.post('/likeItem', function (req,res) {
     var options = [
         {new: true}
     ]    
-    Bumper.findOneAndUpdate( {_id: req.body.bumperid, authorID: {'$ne':req.user._id}, 'likeby': {'$ne':req.user._id}}, 
+    Item.findOneAndUpdate( {_id: req.body.item, authorID: {'$ne':req.user._id}, 'likeby': {'$ne':req.user._id}}, 
         {$push: {likeby: req.user._id} },
         options, 
         function (err, docs) {
@@ -167,17 +167,17 @@ router.post('/likeBumper', function (req,res) {
                 err: err});
         }
         return res.status(200).json({
-            status: 'Updated who likes this Bumper!',
+            status: 'Updated who likes this Item!',
             docs: docs                
         });        
     });  
 })
 
-router.post('/repostBumper', function (req,res) {
+router.post('/repostItem', function (req,res) {
     var options = [
         {new: true}
     ]    
-    Bumper.findOneAndUpdate( {_id: req.body.bumperid, authorID: {'$ne':req.user._id}, 'repostedby': {'$ne':req.user._id}}, 
+    Item.findOneAndUpdate( {_id: req.body.item, authorID: {'$ne':req.user._id}, 'repostedby': {'$ne':req.user._id}}, 
         {$push: {repostedby: req.user._id} },
         options, 
         function (err, docs) {
@@ -186,7 +186,7 @@ router.post('/repostBumper', function (req,res) {
                 err: err});
         }
         return res.status(200).json({
-            status: 'Retrieved all recent Bumper!',
+            status: 'Retrieved all recent Item!',
             docs: docs                
         });   
     });  

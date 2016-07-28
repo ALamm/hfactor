@@ -1,4 +1,4 @@
-angular.module('myApp').factory('BumperService', ['$q', '$timeout', '$http',
+angular.module('myApp').factory('ItemService', ['$q', '$timeout', '$http',
     function($q, $timeout, $http) {
 
         // return available functions for use in the controllers
@@ -8,11 +8,11 @@ angular.module('myApp').factory('BumperService', ['$q', '$timeout', '$http',
             getMyBoard: getMyBoard,
             getRecentBoard: getRecentBoard,
             getSelectedBoard: getSelectedBoard,
-            addBumper: addBumper,
-            removeBumper: removeBumper,
-            updateBumper: updateBumper,
-            likeBumper: likeBumper,
-            repostBumper: repostBumper
+            addItem: addItem,
+            removeItem: removeItem,
+            updateItem: updateItem,
+            likeItem: likeItem,
+            repostItem: repostItem
         });
 
         function getUserBoard(authorid) {
@@ -126,11 +126,11 @@ angular.module('myApp').factory('BumperService', ['$q', '$timeout', '$http',
             return deferred.promise;
         }
 
-        function addBumper(title, imgUrl, username) {
+        function addItem(title, imgUrl, username) {
             // create a new instance of deferred
             var deferred = $q.defer();
             // send a post request to the server
-            $http.post('/addBumper', {
+            $http.post('/addItem', {
                     title: title,
                     imgUrl: imgUrl,
                     username: username
@@ -151,12 +151,12 @@ angular.module('myApp').factory('BumperService', ['$q', '$timeout', '$http',
             return deferred.promise;
         }
 
-        function removeBumper(bumperid) {
+        function removeItem(item) {
             // create a new instance of deferred
             var deferred = $q.defer();
             // send a post request to the server
-            $http.post('/removeBumper', {
-                    bumperid: bumperid
+            $http.post('/removeItem', {
+                    item: item
                 })
                 // handle success
                 .success(function(data, status) {
@@ -174,12 +174,12 @@ angular.module('myApp').factory('BumperService', ['$q', '$timeout', '$http',
             return deferred.promise;
         }        
 
-        function updateBumper(bumperid) {
+        function updateItem(item) {
             // create a new instance of deferred
             var deferred = $q.defer();
             // send a post request to the server
-            $http.post('/updateBumper', {
-                    bumperid: bumperid
+            $http.post('/updateItem', {
+                    item: item
                 })
                 // handle success
                 .success(function(data, status) {
@@ -197,12 +197,12 @@ angular.module('myApp').factory('BumperService', ['$q', '$timeout', '$http',
             return deferred.promise;
         }  
 
-        function likeBumper(bumperid) {
+        function likeItem(item) {
             // create a new instance of deferred
             var deferred = $q.defer();
             // send a post request to the server
-            $http.post('/likeBumper', {
-                    bumperid: bumperid
+            $http.post('/likeItem', {
+                    item: item
                 })
                 // handle success
                 .success(function(data, status) {
@@ -220,12 +220,12 @@ angular.module('myApp').factory('BumperService', ['$q', '$timeout', '$http',
             return deferred.promise;
         }  
 
-        function repostBumper(bumperid) {
+        function repostItem(item) {
             // create a new instance of deferred
             var deferred = $q.defer();
             // send a post request to the server
-            $http.post('/repostBumper', {
-                    bumperid: bumperid
+            $http.post('/repostItem', {
+                    item: item
                 })
                 // handle success
                 .success(function(data, status) {

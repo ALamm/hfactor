@@ -72,8 +72,8 @@ angular.module('myApp').controller('indexController', ['$scope', '$rootScope', '
     }            
 ]);
 
-angular.module('myApp').controller('selectedController', ['$scope', '$rootScope', '$route', '$routeParams', '$http', 'AuthService', 'CookieService', 'BumperService',
-    function($scope, $rootScope, $route, $routeParams, $http, AuthService, CookieService, BumperService) {
+angular.module('myApp').controller('selectedController', ['$scope', '$rootScope', '$route', '$routeParams', '$http', 'AuthService', 'CookieService', 'ItemService',
+    function($scope, $rootScope, $route, $routeParams, $http, AuthService, CookieService, ItemService) {
 
         $rootScope.userid = CookieService.getCookieUserId();
 
@@ -82,25 +82,25 @@ angular.module('myApp').controller('selectedController', ['$scope', '$rootScope'
             $scope.error = false;
             
             // call getSelectedBoard from service
-            BumperService.getSelectedBoard()
+            ItemService.getSelectedBoard()
                 // handle success
                 .then(function(res) {
-                    $scope.selectedBumper = res;   // results will include a recent list of Bumper in Bumper collection
+                    $scope.selectedItem = res;   // results will include a recent list of Item in Item collection
                 })
                 // handle error
                 .catch(function() {
                     $scope.error = true;
-                    $scope.errorMessage = "Error getting my Bumper";
+                    $scope.errorMessage = "Error getting my Item";
                 });
         };
-        // call the myBumper function:
+        // call the myItem function:
         $scope.getSelectedBoard();        
 
     }            
 ]);
 
-angular.module('myApp').controller('myBumperController', ['$scope', '$rootScope', '$route', '$uibModal', 'AuthService', 'CookieService', 'BumperService',
-    function($scope, $rootScope, $route, $uibModal, AuthService, CookieService, BumperService) {
+angular.module('myApp').controller('myItemController', ['$scope', '$rootScope', '$route', '$uibModal', 'AuthService', 'CookieService', 'ItemService',
+    function($scope, $rootScope, $route, $uibModal, AuthService, CookieService, ItemService) {
 
         $rootScope.userid = CookieService.getCookieUserId();
 
@@ -109,10 +109,10 @@ angular.module('myApp').controller('myBumperController', ['$scope', '$rootScope'
             $scope.error = false;
             
             // call getMyBoard from service
-            BumperService.getMyBoard()
+            ItemService.getMyBoard()
                 // handle success
                 .then(function(res) {
-                    $scope.myBumper = res;   // results will include a list of this user's Bumper in Bumper collection
+                    $scope.myItem = res;   // results will include a list of this user's Item in Item collection
                     $rootScope.authorname = $rootScope.username;
                     $rootScope.totalLikes(res);
                     $rootScope.totalReposts(res);
@@ -121,63 +121,63 @@ angular.module('myApp').controller('myBumperController', ['$scope', '$rootScope'
                 // handle error
                 .catch(function() {
                     $scope.error = true;
-                    $scope.errorMessage = "Error getting Bumper";
+                    $scope.errorMessage = "Error getting Item";
                 });
         };
         // call the function:
         $scope.getMyBoard();
 
 
-        $scope.addBumper = function() {
+        $scope.addItem = function() {
             // initial values
             $scope.error = false;
 
-            // call addBumper from service
-            BumperService.addBumper($scope.BumperForm.title, $scope.BumperForm.imgUrl, $rootScope.username)
+            // call addItem from service
+            ItemService.addItem($scope.ItemForm.title, $scope.ItemForm.imgUrl, $rootScope.username)
 
                 // handle success
                 .then(function(res) {
-                    $scope.BumperForm = {};
-                    $scope.getMyBoard();   // results will include a list of this user's Bumper in Bumper collection
+                    $scope.ItemForm = {};
+                    $scope.getMyBoard();   // results will include a list of this user's Item in Item collection
 
                 })
                 // handle error
                 .catch(function() {
                     $scope.error = true;
-                    $scope.errorMessage = "Error adding Bumper";
+                    $scope.errorMessage = "Error adding Item";
                 });
         };
 
-        $scope.removeBumper = function(bumperid, authorid) {
+        $scope.removeItem = function(item, authorid) {
             // initial values
             $scope.error = false;
 
             if (authorid === $rootScope.userid) {
-                // call removeBumper from service
-                BumperService.removeBumper(bumperid)
+                // call removeItem from service
+                ItemService.removeItem(item)
 
                     // handle success
                     .then(function(res) {
-                        $scope.getMyBoard();   // results will include a list of this user's Bumper in Bumper collection
+                        $scope.getMyBoard();   // results will include a list of this user's Item in Item collection
                     })
                     // handle error
                     .catch(function() {
                         $scope.error = true;
-                        $scope.errorMessage = "Error removing Bumper";
+                        $scope.errorMessage = "Error removing Item";
                     });
             }
             else {
-                // call removeBumper from service
-                BumperService.updateBumper(bumperid)
+                // call removeItem from service
+                ItemService.updateItem(item)
 
                     // handle success
                     .then(function(res) {
-                        $scope.getMyBoard();   // results will include a list of this user's Bumper in Bumper collection
+                        $scope.getMyBoard();   // results will include a list of this user's Item in Item collection
                     })
                     // handle error
                     .catch(function() {
                         $scope.error = true;
-                        $scope.errorMessage = "Error removing Bumper";
+                        $scope.errorMessage = "Error removing Item";
                     });                
             }
         };
@@ -187,8 +187,8 @@ angular.module('myApp').controller('myBumperController', ['$scope', '$rootScope'
 ]);
 
 
-angular.module('myApp').controller('userBumperController', ['$scope', '$rootScope', '$route', '$routeParams', '$http', 'AuthService', 'CookieService', 'BumperService',
-    function($scope, $rootScope, $route, $routeParams, $http, AuthService, CookieService, BumperService) {
+angular.module('myApp').controller('userItemController', ['$scope', '$rootScope', '$route', '$routeParams', '$http', 'AuthService', 'CookieService', 'ItemService',
+    function($scope, $rootScope, $route, $routeParams, $http, AuthService, CookieService, ItemService) {
 
         //      Two ways to get the parameter passed in the url
         //      $routeParams.id
@@ -207,7 +207,7 @@ angular.module('myApp').controller('userBumperController', ['$scope', '$rootScop
             $scope.error = false;
             
             // call getMyBoard from service
-            BumperService.getUserAuthorName(authorid)
+            ItemService.getUserAuthorName(authorid)
                 // handle success
                 .then(function(res) {
                         if(res.hasOwnProperty('username')) {
@@ -246,16 +246,16 @@ angular.module('myApp').controller('userBumperController', ['$scope', '$rootScop
             $rootScope.reposts = totalReposts
         }
 
-        // GET this user's bumperss to display on their board
+        // GET this user's item to display on their board
         $scope.getUserBoard = function(authorid) {
             // initial values
             $scope.error = false;
             
             // call getMyBoard from service
-            BumperService.getUserBoard(authorid)
+            ItemService.getUserBoard(authorid)
                 // handle success
                 .then(function(res) {
-                    $scope.userBumper = res;   // results will include a list of this user's Bumper in Bumper collection
+                    $scope.userItem = res;   // results will include a list of this user's Item in Item collection
                     $scope.totalLikes(res);
                     $scope.totalReposts(res);
                     $rootScope.totalPins = res.length;                
@@ -263,50 +263,50 @@ angular.module('myApp').controller('userBumperController', ['$scope', '$rootScop
                 // handle error
                 .catch(function() {
                     $scope.error = true;
-                    $scope.errorMessage = "Error getting Bumper";
+                    $scope.errorMessage = "Error getting Item";
                 });
         };
         // call the function: 
         $scope.getUserBoard(authorid);        
 
 
-        $scope.likeBumper = function(bumperid) {
+        $scope.likeItem = function(item) {
 
             // initial values
             $scope.error = false;
             
             if($rootScope.logged) {
-                // call likeBumper from service
-                BumperService.likeBumper(bumperid)
+                // call likeItem from service
+                ItemService.likeItem(item)
                     // handle success
                     .then(function(res) {
-                        $scope.getUserBoard(authorid);   // results will include a list of user's Bumper in Bumper collection
+                        $scope.getUserBoard(authorid);   // results will include a list of user's Item in Item collection
                     })
                     // handle error
                     .catch(function() {
                         $scope.error = true;
-                        $scope.errorMessage = "Error liking Bumper";
+                        $scope.errorMessage = "Error liking Item";
                     });
             }
         };
 
 
-        $scope.repostBumper = function(bumperid) {
+        $scope.repostItem = function(item) {
 
             // initial values
             $scope.error = false;
             
             if($rootScope.logged) {
-                // call likeBumper from service
-                BumperService.repostBumper(bumperid)
+                // call likeItem from service
+                ItemService.repostItem(item)
                     // handle success
                     .then(function(res) {
-                        $scope.getUserBoard(authorid);   // results will include a list of user's Bumper in Bumper collection
+                        $scope.getUserBoard(authorid);   // results will include a list of user's Item in Item collection
                     })
                     // handle error
                     .catch(function() {
                         $scope.error = true;
-                        $scope.errorMessage = "Error reposting Bumper";
+                        $scope.errorMessage = "Error reposting Item";
                     });
             }
         };
@@ -315,8 +315,8 @@ angular.module('myApp').controller('userBumperController', ['$scope', '$rootScop
     }            
 ]);
 
-angular.module('myApp').controller('recentBumperController', ['$scope', '$rootScope', '$route', 'AuthService', 'CookieService', 'BumperService', 
-    function($scope, $rootScope, $route, AuthService, CookieService, BumperService) {
+angular.module('myApp').controller('recentItemController', ['$scope', '$rootScope', '$route', 'AuthService', 'CookieService', 'ItemService', 
+    function($scope, $rootScope, $route, AuthService, CookieService, ItemService) {
 
         $rootScope.userid = CookieService.getCookieUserId();
 
@@ -325,58 +325,58 @@ angular.module('myApp').controller('recentBumperController', ['$scope', '$rootSc
             $scope.error = false;
             
             // call getRecentBoard from service
-            BumperService.getRecentBoard()
+            ItemService.getRecentBoard()
                 // handle success
                 .then(function(res) {
-                    $scope.recentBumper = res;   // results will include a recent list of Bumper in Bumper collection
+                    $scope.recentItem = res;   // results will include a recent list of Item in Item collection
                 })
                 // handle error
                 .catch(function() {
                     $scope.error = true;
-                    $scope.errorMessage = "Error getting my Bumper";
+                    $scope.errorMessage = "Error getting my Item";
                 });
         };
-        // call the myBumper function:
+        // call the myItem function:
         $scope.getRecentBoard();
 
 
-        $scope.likeBumper = function(bumperid) {
+        $scope.likeItem = function(item) {
 
             if($rootScope.logged) {
                 // initial values
                 $scope.error = false;
                 
-                // call likeBumper from service
-                BumperService.likeBumper(bumperid)
+                // call likeItem from service
+                ItemService.likeItem(item)
                     // handle success
                     .then(function(res) {
-                        $scope.getRecentBoard();   // results will include a recent list of Bumper in Bumper collection
+                        $scope.getRecentBoard();   // results will include a recent list of Item in Item collection
                     })
                     // handle error
                     .catch(function() {
                         $scope.error = true;
-                        $scope.errorMessage = "Error liking Bumper";
+                        $scope.errorMessage = "Error liking Item";
                     });
             }
         };
 
 
-        $scope.repostBumper = function(bumperid) {
+        $scope.repostItem = function(item) {
 
             // initial values
             $scope.error = false;
             
             if($rootScope.logged) {
-                // call likeBumper from service
-                BumperService.repostBumper(bumperid)
+                // call likeItem from service
+                ItemService.repostItem(item)
                     // handle success
                     .then(function(res) {
-                        $scope.getRecentBoard();   // results will include a recent list of Bumper in Bumper collection
+                        $scope.getRecentBoard();   // results will include a recent list of Item in Item collection
                     })
                     // handle error
                     .catch(function() {
                         $scope.error = true;
-                        $scope.errorMessage = "Error reposting Bumper";
+                        $scope.errorMessage = "Error reposting Item";
                     });
             }
         };

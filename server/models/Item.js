@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // create User Schema
-var Bumper = new Schema({
+var Item = new Schema({
   authorID: String,
   authorName: String,
   title: String,
@@ -12,4 +12,4 @@ var Bumper = new Schema({
   likeby: { type: Array, "default" : [] }
 });
 
-module.exports = mongoose.model('bumper', Bumper);
+module.exports = mongoose.model('bumper', Item);
