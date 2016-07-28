@@ -1,0 +1,42 @@
+<div class="col-md-12 fullsize">
+    <div class="jumbotron"> 
+      <!--<img src="./images/heart.png" alt="" class="leadTitle">-->
+      <h1 class="">{{TITLE}}</h1>
+      <p class="tagline">A collection of <moments></moments> that make your heart swell.</p>
+    </div>
+</div>
+
+<div class="col-md-12 fullsize">
+  <div class="col-sm-12 homeMiddle">
+    <div class="panel panel-default">
+      <div class="panel-body panel-body-full">
+          <div class="panel-title"><h3 class="panelheadings">Recently Added</h3> </div>
+        
+        <div  masonry="{columnWidth:210, gutter: 10, stagger: 30, transitionDuration: '0.6s'}" >
+            <div class="masonry-brick" ng-repeat="Bumper in selectedBumper track by $index">
+                <div class="">
+                    <img ng-attr-src="{{Bumper.imgUrl}}" alt="{{Bumper.title}}" class="myBumperSearchImg">
+                </div>
+                <div class="">  
+                    <h3 class="bumperSearchTitle">{{Bumper.title}}</h3>
+                </div>
+                <div class="myBumperInfo">                
+                    <div class="myBumperName">
+                        <p class="author"><a href="#/users/{{Bumper.authorID}}">{{Bumper.authorName}}</a></p>
+                    </div>   
+                    <form class="form-like">
+                        <!--<div class="form-group">
+                        <p class="likedby"><i class="fa fa-heart faSpacer"></i>{{ count(Bumper.likeby) }}</p>
+                        </div>-->
+                    </form>
+                    <form class="form-repost">
+                        <!--<div class="form-group">
+                        <p class="repostedby"><i class="fa fa-repost faSpacer"></i>{{ count(Bumper.repostedby) }}</p>
+                        </div>-->
+                    </form>                
+                </div> 
+            </div>
+        </div>             
+      </div>
+    </div>
+</div>

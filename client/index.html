@@ -1,0 +1,124 @@
+<html ng-app="myApp">
+
+<head>
+    <meta charset="utf-8">
+    <!--ACTIVATE THE FOLLOWING CSP POLICY ON LIVE SERVER ONLY-->
+    <!--<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">-->
+    <link rel="shortcut icon" href="/icon/favicon.ico">
+    <title ng-cloak>{{TITLE}}</title>
+    <!-- styles -->
+    <!-- load bootstrap and fontawesome via CDN -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+        crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+
+    <header>
+
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                        aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand logo" href="#/"><img class="logoheight" src="/images/heart.png" alt="">
+                        <h3 class="logoText" ng-cloak>{{TITLE}}</h3>
+                    </a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse" ng-controller="indexController">
+                    <ul class="nav navbar-nav">
+                        <li class="" ng-class="{active: activetab == '/'}"><a href="#/">Home</a></li>
+                        <li ng-if="logged" ng-class="{active: activetab == '/yours'}"><a href="#/yours">Your Pins</a></li>
+                        <li ng-class="{active: activetab == '/recent'}"><a href="#/recent">All Pins</a></li>
+
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li ng-if="!logged" ng-class="{active: activetab == '/login'}"><a href="#/login"><i></i>Login</a></li>
+                        <li ng-if="logged" ng-cloak><span class="username">Hello {{username}}</span></li>
+                        <li ng-controller="logoutController" ng-if="logged" ng-click='logout()'><a href="#/"><i></i>Logout</a></li>
+                        <li ng-if="logged"><a href="#/settings"><i class="fa fa-cog fa-cog-size" aria-hidden="true"></i></a></li>
+                        <li ng-if="!logged" ng-class="{active: activetab == '/register'}"><a href="#/register"><i></i>Signup</a></li>
+                    </ul>
+                </div>
+                <!--/.nav-collapse -->
+                <div class="navbarAddOn" ng-cloak ng-if="activetab !== '/' ">
+                    <div class="navbarAddOn-wrapper">
+                        <h3 class="stats-author" ng-if="activetab !== '/recent'">{{authorname}}</h3>
+                        <h3 class="stats-total" ng-if="activetab !== '/recent'"><i class="fa fa-thumb-tack faSpacerTotal"></i>{{totalPins}}</h3>
+                        <h3 class="stats-likes" ng-if="activetab !== '/recent'">
+                        <i class="fa fa-heart faSpacerSummary" ng-class="{ 'fa-heart-clicked': likes.length > 0, 'text-large': giant }"></i>{{likes}}</h3>
+                        <h3 class="stats-reposts" ng-if="activetab !== '/recent'"><i class="fa fa-refresh fa-repost faSpacerSummary"></i>{{reposts}}</h3>
+                    </div>
+
+                </div>
+            </div>
+            <!--/.container -->
+        </nav>
+
+    </header>
+
+    <div ng-view class="container"></div>
+
+    <footer ng-cloak>
+        <div class="container">
+            <div class="col-md-12 builtby">
+                <p>{{TITLE}} is built by
+                    <a href="https://www.freecodecamp.com/alamm">@alamm</a> of freecodecamp, following the instructions of
+                    <a href="https://www.freecodecamp.com/challenges/build-a-pinterest-clone">"{{TITLE}} | Free Code Camp"</a></p>
+                <p>Github repository:<a href="https://github.com/ALamm/bumperstick">ALamm/{{TITLE}}</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- scripts -->
+    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="js/jquery-bridget.js"></script>
+    <script src="js/ev-emitter.js"></script>
+    <script src="js/matches-selector.js"></script>
+    <script src="js/fizzy-ui-utils.js"></script>
+    <!--<script src="js/get-size"></script>-->
+    <script src="js/outlayer-item.js"></script>
+    <script src="js/outlayer-outlayer.js"></script>
+    <script src="//npmcdn.com/masonry-layout@4.1/dist/masonry.pkgd.min.js"></script>
+    <script src="//npmcdn.com/imagesloaded@4.1/imagesloaded.pkgd.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.2/angular.min.js"></script>
+    <script src="js/angular-masonry.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular-route.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-cookies.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.2/angular-animate.min.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.0.0.js"></script>
+    <script src="/app.js"></script>
+    <script src="services.js"></script>
+    <script src="controllers.js"></script>
+    <script type="text/javascript">
+    (function(){
+
+for(i=0;i<nodes.length;i++){
+
+nodes[i].onerror=nodes[i].src=’images/missing.png’;
+
+}
+
+})();
+        // $(document).ready(function(){
+        // // $(“img”).each(function(){
+
+        // // $(this).attr(“onerror”,”this.src=’/images/missing.png'”);
+
+        // // });
+
+        // });
+    </script>
+</body>
