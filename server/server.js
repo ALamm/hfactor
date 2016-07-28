@@ -30,7 +30,7 @@ var routes = require('./routes/api.js');
 
 // static routes - before express-session 
 // if you add the session middleware before your static directory, Express will generate sessions for requests on static files
-// Simply put your static files first, or better yet on a CDN that has nothing to do with your Node.js app and your session collection should stay much healthier
+// put your static files first, oron a CDN that has nothing to do with your Node.js app and your session collection should stay much healthier
 app.use(express.static(path.join(__dirname, '../client')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname + '/../server')));
@@ -50,7 +50,7 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// routes       - for all routes that use /user/
+// routes   
 app.use('/', routes);
 
 // error hndlers
