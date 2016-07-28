@@ -230,11 +230,8 @@ position: absolute;
     clear: both;
     font-size: 18px;
 }
-.broken-image {
-    background-image: url('http://desandro.github.io/imagesloaded/assets/broken.png');
-}
 .jumbotron {
-    background: #4a8b91!important;
+    /*background: #4a8b91!important;*/
     margin-bottom: 0;
     background-image: url('/images/home_heart.jpg')!important;
 }
