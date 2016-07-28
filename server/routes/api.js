@@ -194,8 +194,6 @@ router.post('/repostBumper', function (req,res) {
 
 router.get('/status', function(req, res) {
 
-    // console.log('req.user', req.user);
-
     if (!req.isAuthenticated()) {
         return res.status(200).json({
             status: false

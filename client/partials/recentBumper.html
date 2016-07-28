@@ -13,12 +13,12 @@
                 </div>   
                 <form class="form-like" ng-click="likeBumper(Bumper._id)">
                     <div class="form-group">
-                    <p class="likedby"><i class="fa fa-heart faSpacer" ng-class="{ 'fa-heart-clicked': clicked(Bumper.likeby) }"></i>{{ count(Bumper.likeby) }}</p>
+                    <p class="likedby"><i class="fa fa-heart faSpacer" ng-class="{ 'fa-heart-highlight': highlight(Bumper.likeby) }"></i>{{ count(Bumper.likeby) }}</p>
                     </div>
                 </form>
                 <form class="form-repost" ng-click="repostBumper(Bumper._id)">
                     <div class="form-group">
-                        <p class="repostedby"><i class="fa fa-refresh fa-repost faSpacer" ng-class="{ 'fa-repost-clicked': clicked(Bumper.repostedby) }"></i>{{ count(Bumper.repostedby) }}</p>
+                        <p class="repostedby"><i class="fa fa-refresh fa-repost faSpacer" ng-class="{ 'fa-repost-highlight': highlight(Bumper.repostedby) }"></i>{{ count(Bumper.repostedby) }}</p>
                     </div>
                 </form>  
             </div>              

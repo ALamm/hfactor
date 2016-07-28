@@ -6,7 +6,7 @@ angular.module('myApp').controller('indexController', ['$scope', '$rootScope', '
         $rootScope.TITLE = "HeartFactor";
 
         // initialize userid.  Used to persist the userid and username (in case of page refresh) and to get/update user settings
-        var userid = CookieService.getCookieUserId();
+        $rootScope.userid = CookieService.getCookieUserId();
 
         // initialize username for use throughout the site
         $rootScope.username = CookieService.getCookieUsername();
@@ -26,7 +26,7 @@ angular.module('myApp').controller('indexController', ['$scope', '$rootScope', '
         $rootScope.totalLikes = function (res) {
             var totalLikes = 0;
             var likeby = res.map( function (val) {
-                if (val.authorID == userid) {
+                if (val.authorID == $rootScope.userid) {
                     totalLikes += val.likeby.length
                 }
             })
@@ -36,17 +36,17 @@ angular.module('myApp').controller('indexController', ['$scope', '$rootScope', '
         $rootScope.totalReposts = function (res) {
             var totalReposts = 0;
             var reposts = res.map( function (val) {
-                if (val.authorID == userid) {
+                if (val.authorID == $rootScope.userid) {
                     totalReposts += val.repostedby.length
                 }
             })
             $rootScope.reposts = totalReposts
         }
 
-        $rootScope.clicked = function (arr) {
-            if (arr.length > 0) {
+        $rootScope.highlight = function (arr) {
+            if (arr.length > 0 ) {
                 for (var i = 0; i < arr.length; i++) {
-                    if(arr[i] === userid) {
+                    if(arr[i] === $rootScope.userid) {
                         return true
                     }
                 }                        
@@ -60,8 +60,7 @@ angular.module('myApp').controller('indexController', ['$scope', '$rootScope', '
                 // if a user has logged in then res.data.status = true
                 if ( res.data.status ) {
                     // set the username and cookies when an oAuth user logs in. 
-                    //Local login is set within loginController below
-                    // var obj = res.data.user;
+                    // Local login (username and cookies) is set within loginController below
                     if (res.data.user.hasOwnProperty("someID") === true) {  //   oAuth user is currently logged in
                         $rootScope.username = res.data.user.name;
                         CookieService.setCookie(res.data.user._id, res.data.user.name)
@@ -76,7 +75,7 @@ angular.module('myApp').controller('indexController', ['$scope', '$rootScope', '
 angular.module('myApp').controller('selectedController', ['$scope', '$rootScope', '$route', '$routeParams', '$http', 'AuthService', 'CookieService', 'BumperService',
     function($scope, $rootScope, $route, $routeParams, $http, AuthService, CookieService, BumperService) {
 
-        var userid = CookieService.getCookieUserId();
+        $rootScope.userid = CookieService.getCookieUserId();
 
         $scope.getSelectedBoard = function() {
             // initial values
@@ -103,7 +102,7 @@ angular.module('myApp').controller('selectedController', ['$scope', '$rootScope'
 angular.module('myApp').controller('myBumperController', ['$scope', '$rootScope', '$route', '$uibModal', 'AuthService', 'CookieService', 'BumperService',
     function($scope, $rootScope, $route, $uibModal, AuthService, CookieService, BumperService) {
 
-        var userid = CookieService.getCookieUserId();
+        $rootScope.userid = CookieService.getCookieUserId();
 
         $scope.getMyBoard = function() {
             // initial values
@@ -153,7 +152,7 @@ angular.module('myApp').controller('myBumperController', ['$scope', '$rootScope'
             // initial values
             $scope.error = false;
 
-            if (authorid === userid) {
+            if (authorid === $rootScope.userid) {
                 // call removeBumper from service
                 BumperService.removeBumper(bumperid)
 
@@ -200,6 +199,7 @@ angular.module('myApp').controller('userBumperController', ['$scope', '$rootScop
 
         var authorid = $routeParams.id;
 
+        $rootScope.userid = CookieService.getCookieUserId();
 
         // GET USER NAME for display in the title of user's board
         $scope.getUserAuthorName = function(authorid) {
@@ -258,14 +258,15 @@ angular.module('myApp').controller('userBumperController', ['$scope', '$rootScop
                     $scope.userBumper = res;   // results will include a list of this user's Bumper in Bumper collection
                     $scope.totalLikes(res);
                     $scope.totalReposts(res);
-                    $rootScope.totalPins = res.length;                })
+                    $rootScope.totalPins = res.length;                
+                })
                 // handle error
                 .catch(function() {
                     $scope.error = true;
                     $scope.errorMessage = "Error getting Bumper";
                 });
         };
-        // call the function:
+        // call the function: 
         $scope.getUserBoard(authorid);        
 
 
@@ -317,7 +318,7 @@ angular.module('myApp').controller('userBumperController', ['$scope', '$rootScop
 angular.module('myApp').controller('recentBumperController', ['$scope', '$rootScope', '$route', 'AuthService', 'CookieService', 'BumperService', 
     function($scope, $rootScope, $route, AuthService, CookieService, BumperService) {
 
-        var userid = CookieService.getCookieUserId();
+        $rootScope.userid = CookieService.getCookieUserId();
 
         $scope.getRecentBoard = function() {
             // initial values
@@ -396,7 +397,7 @@ angular.module('myApp').controller('loginController', ['$scope', '$rootScope', '
             AuthService.login($scope.loginForm.username, $scope.loginForm.password)
                 // handle success
                 .then(function(res) {
-                    $location.path('#/yours');
+                    $location.path('/');
                     $scope.disabled = false;
                     $scope.loginForm = {};
                     $rootScope.logged = true;
@@ -425,6 +426,7 @@ angular.module('myApp').controller('logoutController', ['$scope', '$rootScope', 
                 .then(function() {
                     $rootScope.logged = false;
                     $rootScope.username = '';
+                    $rootScope.userid = '';
                     CookieService.setCookie('', '');
                     $location.path('/login');
                 });
@@ -452,8 +454,9 @@ angular.module('myApp').controller('registerController', ['$scope', '$rootScope'
                     $scope.registerForm = {};
                     $rootScope.logged = true;
                     $rootScope.username = res.username;
+                    $rootScope.userid = res.id;
                     CookieService.setCookie(res.id, res.username);
-                    $location.path('/yours');
+                    $location.path('/');
                 })
                 // handle error
                 .catch(function() {
@@ -469,7 +472,7 @@ angular.module('myApp').controller('registerController', ['$scope', '$rootScope'
 angular.module('myApp').controller('settingsController', ['$scope', '$rootScope', '$location', '$route', 'AuthService', 'CookieService',
     function($scope, $rootScope, $location, $route, AuthService, CookieService) {
 
-        var userid = CookieService.getCookieUserId();
+        $rootScope.userid = CookieService.getCookieUserId();
 
         $scope.getSettings = function() {
             // initial values
@@ -477,7 +480,7 @@ angular.module('myApp').controller('settingsController', ['$scope', '$rootScope'
             $scope.disabled = true;
 
             // call the getSettings from service
-            AuthService.getSettings(userid)
+            AuthService.getSettings($rootScope.userid)
             
                 //handle success
                 .then(function(res) {
@@ -508,7 +511,7 @@ angular.module('myApp').controller('settingsController', ['$scope', '$rootScope'
             $scope.disabled = true;
 
             // call updateSettings from service
-            AuthService.updateSettings(userid, $scope.settingsForm.first, $scope.settingsForm.last, $scope.settingsForm.city, $scope.settingsForm.state)
+            AuthService.updateSettings($rootScope.userid, $scope.settingsForm.first, $scope.settingsForm.last, $scope.settingsForm.city, $scope.settingsForm.state)
 
                 // handle success
                 .then(function(res) {

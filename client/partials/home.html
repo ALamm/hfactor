@@ -25,14 +25,14 @@
                         <p class="author"><a href="#/users/{{Bumper.authorID}}">{{Bumper.authorName}}</a></p>
                     </div>   
                     <form class="form-like">
-                        <!--<div class="form-group">
-                        <p class="likedby"><i class="fa fa-heart faSpacer"></i>{{ count(Bumper.likeby) }}</p>
-                        </div>-->
+                        <div class="form-group">
+                            <p class="likedby"><i class="fa fa-heart faSpacer" ng-class="{ 'fa-heart-highlight': highlight(Bumper.likeby) }"></i>{{ count(Bumper.likeby) }}</p>
+                        </div>
                     </form>
                     <form class="form-repost">
-                        <!--<div class="form-group">
-                        <p class="repostedby"><i class="fa fa-repost faSpacer"></i>{{ count(Bumper.repostedby) }}</p>
-                        </div>-->
+                        <div class="form-group">
+                            <p class="repostedby"><i class="fa fa-refresh fa-repost faSpacer" ng-class="{ 'fa-repost-highlight': highlight(Bumper.repostedby) }"></i>{{ count(Bumper.repostedby) }}</p>
+                        </div>
                     </form>                
                 </div> 
             </div>

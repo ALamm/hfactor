@@ -51,13 +51,13 @@
                     </ul>
                 </div>
                 <!--/.nav-collapse -->
-                <div class="navbarAddOn" ng-cloak ng-if="activetab !== '/' ">
+                <div class="navbarAddOn" ng-cloak ng-if="activetab !== '/' && activetab !== '/recent' && activetab !== '/login' && activetab !== '/register' && activetab !== '/settings'">
                     <div class="navbarAddOn-wrapper">
-                        <h3 class="stats-author" ng-if="activetab !== '/recent'">{{authorname}}</h3>
-                        <h3 class="stats-total" ng-if="activetab !== '/recent'"><i class="fa fa-thumb-tack faSpacerTotal"></i>{{totalPins}}</h3>
-                        <h3 class="stats-likes" ng-if="activetab !== '/recent'">
-                        <i class="fa fa-heart faSpacerSummary" ng-class="{ 'fa-heart-clicked': likes.length > 0, 'text-large': giant }"></i>{{likes}}</h3>
-                        <h3 class="stats-reposts" ng-if="activetab !== '/recent'"><i class="fa fa-refresh fa-repost faSpacerSummary"></i>{{reposts}}</h3>
+                        <h3 class="stats-author" >{{authorname}}</h3>
+                        <h3 class="stats-total" ><i class="fa fa-thumb-tack faSpacerTotal"></i>{{totalPins}}</h3>
+                        <h3 class="stats-likes" >
+                        <i class="fa fa-heart faSpacerSummary" ng-class="{ 'fa-heart-highlight': likes.length > 0, 'text-large': giant }"></i>{{likes}}</h3>
+                        <h3 class="stats-reposts" ><i class="fa fa-refresh fa-repost faSpacerSummary"></i>{{reposts}}</h3>
                     </div>
 
                 </div>

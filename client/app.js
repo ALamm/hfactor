@@ -71,7 +71,7 @@ myApp.run(['$rootScope', '$location', function($rootScope, $location) {
     $rootScope.$watch(path, function(newVal, oldVal) {
         $rootScope.activetab = newVal;
     });
-}]);
+}]); 
 
 // The $routeChangeStart event fires before the actual route change occurs. 
 // So, whenever a route is accessed, before the view is served, 
@@ -80,10 +80,13 @@ myApp.run(function($rootScope, $location, $route, AuthService) {
     $rootScope.$on('$routeChangeStart',
         function(event, next, current) {
             AuthService.getUserStatus()
-                .then(function() {
+                .then(function(res) {
                     if (next.access.restricted && !AuthService.isLoggedIn()) {
                         $location.path('/login');
                         $route.reload();
+                    }
+                    if (!AuthService.isLoggedIn()) {
+                        $rootScope.userid = ''; 
                     }
                 });
         });

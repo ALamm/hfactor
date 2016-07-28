@@ -199,13 +199,13 @@ a:hover {
 .fa-heart {
     color: #7a7a7a; 
 }
-.fa-heart-clicked {
+.fa-heart-highlight {
     color: #bd081c; 
 }
 .fa-repost {
     color: #7a7a7a;
 }
-.fa-repost-clicked {
+.fa-repost-highlight {
     color: #4159d2;
 }
 .removeBook {
