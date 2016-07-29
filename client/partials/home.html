@@ -24,12 +24,12 @@
                     <div class="myItemName">
                         <p class="author"><a href="#/users/{{Item.authorID}}">{{Item.authorName}}</a></p>
                     </div>   
-                    <form class="form-like">
+                    <form class="form-like" ng-click="likeItem(Item._id)">
                         <div class="form-group">
                             <p class="likedby"><i class="fa fa-heart faSpacer" ng-class="{ 'fa-heart-highlight': highlight(Item.likeby) }"></i>{{ count(Item.likeby) }}</p>
                         </div>
                     </form>
-                    <form class="form-repost">
+                    <form class="form-repost" ng-click="repostItem(Item._id)">
                         <div class="form-group">
                             <p class="repostedby"><i class="fa fa-refresh fa-repost faSpacer" ng-class="{ 'fa-repost-highlight': highlight(Item.repostedby) }"></i>{{ count(Item.repostedby) }}</p>
                         </div>

@@ -96,6 +96,46 @@ angular.module('myApp').controller('selectedController', ['$scope', '$rootScope'
         // call the myItem function:
         $scope.getSelectedBoard();        
 
+        $scope.likeItem = function(item) {
+
+            // initial values
+            $scope.error = false;
+            if($rootScope.logged) {
+                // call likeItem from service
+                ItemService.likeItem(item)
+                    // handle success
+                    .then(function(res) {
+                        $scope.getSelectedBoard();    // results will include a selection of items
+                    })
+                    // handle error
+                    .catch(function() {
+                        $scope.error = true;
+                        $scope.errorMessage = "Error liking Item";
+                    });
+            }
+        };
+
+
+        $scope.repostItem = function(item) {
+
+            // initial values
+            $scope.error = false;
+            
+            if($rootScope.logged) {
+                // call repostItem from service
+                ItemService.repostItem(item)
+                    // handle success
+                    .then(function(res) {
+                        $scope.getSelectedBoard();    // results will include a selection of items
+                    })
+                    // handle error
+                    .catch(function() {
+                        $scope.error = true;
+                        $scope.errorMessage = "Error reposting Item";
+                    });
+            }
+        };
+
     }            
 ]);
 
@@ -274,7 +314,6 @@ angular.module('myApp').controller('userItemController', ['$scope', '$rootScope'
 
             // initial values
             $scope.error = false;
-            
             if($rootScope.logged) {
                 // call likeItem from service
                 ItemService.likeItem(item)
@@ -297,7 +336,7 @@ angular.module('myApp').controller('userItemController', ['$scope', '$rootScope'
             $scope.error = false;
             
             if($rootScope.logged) {
-                // call likeItem from service
+                // call repostItem from service
                 ItemService.repostItem(item)
                     // handle success
                     .then(function(res) {
@@ -367,7 +406,7 @@ angular.module('myApp').controller('recentItemController', ['$scope', '$rootScop
             $scope.error = false;
             
             if($rootScope.logged) {
-                // call likeItem from service
+                // call repostItem from service
                 ItemService.repostItem(item)
                     // handle success
                     .then(function(res) {
