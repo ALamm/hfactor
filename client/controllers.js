@@ -436,7 +436,7 @@ angular.module('myApp').controller('loginController', ['$scope', '$rootScope', '
             AuthService.login($scope.loginForm.username, $scope.loginForm.password)
                 // handle success
                 .then(function(res) {
-                    $location.path('/');
+                    $location.path('/recent');
                     $scope.disabled = false;
                     $scope.loginForm = {};
                     $rootScope.logged = true;
